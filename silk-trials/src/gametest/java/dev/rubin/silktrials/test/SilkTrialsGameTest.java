@@ -42,7 +42,7 @@ public class SilkTrialsGameTest {
 	private static final String BREEZE = "minecraft:trial_chamber/breeze/normal";
 	private static final String BREEZE_SPAWNER =
 		"{normal_config:'" + BREEZE + "',ominous_config:'minecraft:trial_chamber/breeze/ominous',"
-			+ "cooldown_ends_at:999999999L,total_mobs_spawned:4,registered_players:[[I;1,2,3,4]]}";
+			+ "spawn_data:{entity:{id:'minecraft:breeze'}},cooldown_ends_at:999999999L,total_mobs_spawned:4,registered_players:[[I;1,2,3,4]]}";
 	private static final String OMINOUS_LOOT = "minecraft:chests/trial_chambers/reward_ominous";
 	private static final String OMINOUS_VAULT =
 		"{config:{loot_table:'" + OMINOUS_LOOT + "',key_item:{id:'minecraft:ominous_trial_key',count:1}},"
@@ -56,6 +56,7 @@ public class SilkTrialsGameTest {
 
 		ItemStack drop = mine(helper, player, silkTouchPickaxe(helper));
 		helper.assertTrue(drop.is(Items.TRIAL_SPAWNER), "silk touch should drop a trial spawner, got " + drop);
+		assertName(helper, drop, "Trial Spawner (Breeze)");
 
 		place(helper, player, drop);
 		helper.assertBlockPresent(Blocks.TRIAL_SPAWNER, POS);
@@ -113,6 +114,8 @@ public class SilkTrialsGameTest {
 
 		ItemStack drop = mine(helper, player, silkTouchPickaxe(helper));
 		helper.assertTrue(drop.is(Items.VAULT), "silk touch should drop a vault, got " + drop);
+		assertName(helper, drop, "Vault (Ominous Trial Key)");
+		assertName(helper, new ItemStack(Items.VAULT), "Vault");
 
 		place(helper, player, drop);
 		helper.assertBlockPresent(Blocks.VAULT, POS);
@@ -179,6 +182,11 @@ public class SilkTrialsGameTest {
 		ItemStack drop = drops.getFirst().getItem().copy();
 		drops.getFirst().discard();
 		return drop;
+	}
+
+	private static void assertName(final GameTestHelper helper, final ItemStack stack, final String expected) {
+		String name = stack.getHoverName().getString();
+		helper.assertTrue(expected.equals(name), "expected item name '" + expected + "', got '" + name + "'");
 	}
 
 	// placeAt reads the item's data from the player's hand, not from the stack it is given.
