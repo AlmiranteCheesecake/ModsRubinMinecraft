@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"package": "dev.rubin.silktrials.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"mixins": [
+		"BlockItemMixin",
+		"BlockMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"schemaVersion": 1,
+	"id": "silk_trials",
+	"version": "${version}",
+	"name": "Silk Trials",
+	"description": "Trial spawners and vaults drop themselves when mined with Silk Touch, keeping their mob and loot setup, and work normally when placed again.",
+	"authors": [
+		"Rubin"
+	],
+	"license": "CC0-1.0",
+	"icon": "assets/silk_trials/icon.png",
+	"environment": "*",
+	"mixins": [
+		"silk_trials.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.0",
+		"minecraft": "~26.3",
+		"java": ">=25"
+	}
+}
