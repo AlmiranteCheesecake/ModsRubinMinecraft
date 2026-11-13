@@ -15,6 +15,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.BlockEntityTypes;
@@ -35,7 +36,18 @@ public final class SilkTrials {
 	// Who already looted the vault and what it is ejecting. Only "config" (loot table and key item) is kept.
 	private static final List<String> VAULT_RUNTIME_KEYS = List.of("server_data", "shared_data");
 
+	/**
+	 * Hardness used instead of vanilla's 50. The mod also tags both blocks as pickaxe-mineable (see
+	 * data/minecraft/tags/block/mineable/pickaxe.json), so mining takes hardness * 1.5 / tool speed
+	 * seconds: 3 with a plain diamond pickaxe, 0.7 with Efficiency V, 24 by hand.
+	 */
+	public static final float DESTROY_TIME = 16.0F;
+
 	private SilkTrials() {
+	}
+
+	public static boolean isTrialBlock(final Block block) {
+		return block == Blocks.TRIAL_SPAWNER || block == Blocks.VAULT;
 	}
 
 	public static void dropIfSilkTouched(

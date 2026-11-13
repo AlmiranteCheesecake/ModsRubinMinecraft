@@ -25,7 +25,7 @@ dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	// Only the game tests use Fabric API; the mod itself doesn't need it installed.
+	// Fabric API loads the mod's block tag (data/) and runs the game tests.
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 }
 

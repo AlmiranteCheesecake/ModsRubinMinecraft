@@ -129,6 +129,29 @@ public class SilkTrialsGameTest {
 		helper.succeed();
 	}
 
+	@GameTest
+	public void trialBlocksMineFasterWithPickaxe(final GameTestHelper helper) {
+		ServerPlayer player = survivalPlayer(helper);
+		// Mining is 5x slower in mid-air, where the mock player spawns.
+		player.setOnGround(true);
+		BlockPos pos = helper.absolutePos(POS);
+		for (BlockState state : List.of(Blocks.TRIAL_SPAWNER.defaultBlockState(), Blocks.VAULT.defaultBlockState())) {
+			helper.setBlock(POS, state);
+
+			player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+			int byHand = Math.round(1.0F / state.getDestroyProgress(player, helper.getLevel(), pos));
+			helper.assertTrue(byHand == 480, state.getBlock() + " should take 480 ticks by hand, takes " + byHand);
+
+			player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.DIAMOND_PICKAXE));
+			int withPickaxe = Math.round(1.0F / state.getDestroyProgress(player, helper.getLevel(), pos));
+			helper.assertTrue(withPickaxe == 60, state.getBlock() + " should take 60 ticks with a diamond pickaxe, takes " + withPickaxe);
+		}
+
+		float obsidian = Blocks.OBSIDIAN.defaultBlockState().getDestroySpeed(helper.getLevel(), pos);
+		helper.assertTrue(obsidian == 50.0F, "other blocks must keep their hardness, obsidian has " + obsidian);
+		helper.succeed();
+	}
+
 	private static void placeWithData(final GameTestHelper helper, final BlockState state, final String snbt) {
 		helper.setBlock(FLOOR, Blocks.STONE);
 		helper.setBlock(POS, state);
